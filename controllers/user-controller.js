@@ -1,5 +1,6 @@
-const { User } = require("../models");
+// My user controller gives function to all of my crud methods that are on full display in video tutorial
 
+const { User } = require("../models");
 const userCont = {
   getAllUsers(req, res) {
     User.find({})

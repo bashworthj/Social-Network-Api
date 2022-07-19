@@ -1,10 +1,10 @@
-const {Schema, model, Types} = require('mongoose');
+const {Schema, Types} = require('mongoose');
 const moment = require('moment');
-
+// reaction schema being dymanically injected to my thoughts model
 const reactSchema = new Schema ({
   reactionId:{
-    type: Types.ObjectId,
-    default: new Types.ObjectId()
+    type: Schema.Types.ObjectId,
+    default:() => new Types.ObjectId()
   },
   reactionBody:{
     type: String,

@@ -1,3 +1,4 @@
+//  My thoughts controller gives function to all of my crud methods that are on full display in video tutorial
 const { Thoughts, User } = require("../models");
 
 const thoughtsCont = {
@@ -12,7 +13,7 @@ const thoughtsCont = {
         select: "-__v",
       })
       .select("-__v")
-      .then((dbThoughtsData) => res.json(dbThoughtsData))
+      .then((dbThoughtData) => res.json(dbThoughtData))
       .catch((error) => {
         console.log(error);
         res.status(400).json(error);
@@ -21,12 +22,12 @@ const thoughtsCont = {
 
   getThoughtsById({ params }, res) {
     Thoughts.findOne({ _id: params.id })
-      .then((dbThoughtsData) => {
-        if (!dbThoughtsData) {
+      .then((dbThoughtData) => {
+        if (!dbThoughtData) {
           res.status(404).json({ message: "User with this ID does not exist" });
           return;
         }
-        res.json(dbThoughtsData);
+        res.json(dbThoughtData);
       })
       .catch((error) => {
         console.log(error);
@@ -36,10 +37,10 @@ const thoughtsCont = {
 
   newThought({ body }, res) {
     Thoughts.create(body)
-      .then((dbThoughtsData) => {
+      .then((dbThoughtData) => {
         return User.findOneAndUpdate(
           { _id: body.userId },
-          { $push: { thoughts: dbThoughtsData._id } },
+          { $push: { thoughts: dbThoughtData._id } },
           { new: true }
         );
       })
@@ -57,12 +58,12 @@ const thoughtsCont = {
   },
   updateThought({ params, body }, res) {
     Thoughts.findOneAndUpdate({ _id: params.id }, body, { new: true })
-      .then((dbThoughtsData) => {
-        if (!dbThoughtsData) {
+      .then((dbThoughtData) => {
+        if (!dbThoughtData) {
           res.status(404).json({ message: "User with this ID does not exist" });
           return;
         }
-        res.json(dbThoughtsData);
+        res.json(dbThoughtData);
       })
       .catch((error) => {
         console.log(error);
@@ -72,12 +73,12 @@ const thoughtsCont = {
 
   deleteThought({ params }, res) {
     Thoughts.findOneAndDelete({ _id: params.id })
-      .then((dbThoughtsData) => {
-        if (!dbThoughtsData) {
+      .then((dbThoughtData) => {
+        if (!dbThoughtData) {
           res.status(404).json({ message: "User with this ID does not exist" });
           return;
         }
-        res.json(dbThoughtsData);
+        res.json(dbThoughtData);
       })
       .catch((error) => {
         console.log(error);
@@ -91,12 +92,12 @@ const thoughtsCont = {
       { $addToSet: { reactions: body } },
       { new: true }
     )
-      .then((dbThoughtsData) => {
-        if (!dbThoughtsData) {
+      .then((dbThoughtData) => {
+        if (!dbThoughtData) {
           res.status(404).json({ message: "User with this ID does not exist" });
           return;
         }
-        res.json(dbThoughtsData);
+        res.json(dbThoughtData);
       })
       .catch((error) => {
         console.log(error);
@@ -110,7 +111,7 @@ const thoughtsCont = {
       { $pull: { reactions: { reactionId: params.reactionId } } },
       { new: true }
     )
-      .then((dbThoughtsData) => res.json(dbThoughtsData))
+      .then((dbThoughtData) => res.json(dbThoughtData))
       .catch((error) => {
         console.log(error);
         res.status(400).json(error);
